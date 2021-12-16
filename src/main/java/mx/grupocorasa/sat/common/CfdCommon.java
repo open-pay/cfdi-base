@@ -117,14 +117,14 @@ public abstract class CfdCommon implements CfdInterface {
                 String nsURI = ((XmlSchema) annotation).namespace();
                 final String[] nsUrl = new String[1];
                 Arrays.stream(getXSD())
-                        .filter(xsd -> xsd.contains(nsURI.substring(nsURI.lastIndexOf("/"))))
-                        .filter(xsd -> !xsd.contains("/catalogo/") && !xsd.contains("/catalogos/"))
-                        .findAny().ifPresent(value -> nsUrl[0] = value.replace("/xsd/common", "http://www.sat.gob.mx/sitio_internet/cfd"));
+                        .filter(xsd -> xsd.contains(nsURI.substring(nsURI.lastIndexOf(File.separator))))
+                        .filter(xsd -> !xsd.contains(File.separator + "catalogo" + File.separator) && !xsd.contains(File.separator + "catalogos" + File.separator))
+                        .findAny().ifPresent(xsd -> nsUrl[0] = xsd.replace(File.separator + "xsd" + File.separator + "common", "http://www.sat.gob.mx/sitio_internet/cfd"));
                 if (!getLocalPrefixes().containsKey(nsURI)) {
                     String lc_ns = nsURI.substring(nsURI.lastIndexOf("/") + 1).toLowerCase();
                     if (lc_ns.contains("timbrefiscaldigital")) {
                         addNamespace(nsURI, "tfd");
-                    } else if (lc_ns.contains("pagos")) {
+                    } else if (lc_ns.endsWith("pagos")) {
                         addNamespace(nsURI, "pago10");
                     } else {
                         addNamespace(nsURI, nsURI.substring(nsURI.lastIndexOf("/") + 1));
@@ -277,8 +277,8 @@ public abstract class CfdCommon implements CfdInterface {
         namespaceMap.put("mx.grupocorasa.sat.common.IngresosHidrocarburos10", "http://www.sat.gob.mx/IngresosHidrocarburos10");
         namespaceMap.put("mx.grupocorasa.sat.common.Pagos10", "http://www.sat.gob.mx/Pagos");
         namespaceMap.put("mx.grupocorasa.sat.common.TimbreFiscalDigital11", "http://www.sat.gob.mx/TimbreFiscalDigital");
-        namespaceMap.put("mx.grupocorasa.sat.common.TimbreFiscalDigital10", "http://www.sat.gob.mx/TimbreFiscalDigital");
         namespaceMap.put("mx.grupocorasa.sat.common.catalogos.CartaPorte", "http://www.sat.gob.mx/sitio_internet/cfd/catalogos/CartaPorte");
+        namespaceMap.put("mx.grupocorasa.sat.common.TimbreFiscalDigital10", "http://www.sat.gob.mx/TimbreFiscalDigital");
         namespaceMap.put("mx.grupocorasa.sat.common.terceros11", "http://www.sat.gob.mx/terceros");
         namespaceMap.put("mx.grupocorasa.sat.common.terceros10", "http://www.sat.gob.mx/terceros");
         namespaceMap.put("mx.grupocorasa.sat.common.ventavehiculos10", "http://www.sat.gob.mx/ventavehiculos");
@@ -287,16 +287,16 @@ public abstract class CfdCommon implements CfdInterface {
         namespaceMap.put("mx.grupocorasa.sat.common.ComercioExterior10", "http://www.sat.gob.mx/ComercioExterior");
         namespaceMap.put("mx.grupocorasa.sat.common.ComercioExterior11", "http://www.sat.gob.mx/ComercioExterior11");
         namespaceMap.put("mx.grupocorasa.sat.common.catalogos.Combustible", "http://www.sat.gob.mx/sitio_internet/cfd/catalogos/Combustible");
-        namespaceMap.put("mx.grupocorasa.sat.common.ine10", "http://www.sat.gob.mx/ine");
         namespaceMap.put("mx.grupocorasa.sat.common.CartaPorte10", "http://www.sat.gob.mx/CartaPorte");
+        namespaceMap.put("mx.grupocorasa.sat.common.ine10", "http://www.sat.gob.mx/ine");
         namespaceMap.put("mx.grupocorasa.sat.common.cfdiregistrofiscal10", "http://www.sat.gob.mx/registrofiscal");
         namespaceMap.put("mx.grupocorasa.sat.common.ine11", "http://www.sat.gob.mx/ine");
         namespaceMap.put("mx.grupocorasa.sat.common.EstadoDeCuentaCombustible12", "http://www.sat.gob.mx/EstadoDeCuentaCombustible12");
         namespaceMap.put("mx.grupocorasa.sat.common.EstadoDeCuentaCombustible11", "http://www.sat.gob.mx/EstadoDeCuentaCombustible");
         namespaceMap.put("mx.grupocorasa.sat.common.nomina11", "http://www.sat.gob.mx/nomina");
-        namespaceMap.put("mx.grupocorasa.sat.common.acreditamiento10", "http://www.sat.gob.mx/acreditamiento");
         namespaceMap.put("mx.grupocorasa.sat.common.nomina12", "http://www.sat.gob.mx/nomina12");
         namespaceMap.put("mx.grupocorasa.sat.common.psgcfdsp10", "http://www.sat.gob.mx/psgcfdsp");
+        namespaceMap.put("mx.grupocorasa.sat.common.acreditamiento10", "http://www.sat.gob.mx/acreditamiento");
         namespaceMap.put("mx.grupocorasa.sat.common.consumodecombustibles11", "http://www.sat.gob.mx/ConsumoDeCombustibles11");
         namespaceMap.put("mx.grupocorasa.sat.common.consumodecombustibles10", "http://www.sat.gob.mx/consumodecombustibles");
         return namespaceMap;

@@ -1,13 +1,13 @@
 void downloadSatResouce(List<String> downloads, String url, String baseUrl, String basePath) {
-    String filePath = url.replace(baseUrl, basePath + (url.endsWith('.xslt') ? 'xslt/' : 'xsd/'))
-    if (url.equalsIgnoreCase("http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/CartaPorte20.xslt")) {
-        filePath = "src/main/resources/xslt/common/CartaPorte20/CartaPorte20.xslt"
-    } else if (url.equalsIgnoreCase("http://www.sat.gob.mx/sitio_internet/cfd/CartaPorte/CartaPorte20.xsd")) {
-        filePath = "src/main/resources/xsd/common/CartaPorte20/CartaPorte20.xsd"
+    String filePath = url.replace(baseUrl, basePath + (url.endsWith('.xslt') ? "xslt${File.separator}" : "xsd${File.separator}"))
+    if (url.equalsIgnoreCase('http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/CartaPorte20.xslt')) {
+        filePath = "src${File.separator}main${File.separator}resources${File.separator}xslt${File.separator}common${File.separator}CartaPorte20${File.separator}CartaPorte20.xslt"
+    } else if (url.equalsIgnoreCase('http://www.sat.gob.mx/sitio_internet/cfd/CartaPorte/CartaPorte20.xsd')) {
+        filePath = "src${File.separator}main${File.separator}resources${File.separator}xsd${File.separator}common${File.separator}CartaPorte20${File.separator}CartaPorte20.xsd"
     }
     if (url.find('/cfd/[0-9]{1}/') == null) {
         //if url contain cfd version change 'common' dir
-        filePath = filePath.replaceAll('/cfd/', '/common/')
+        filePath = filePath.replaceAll("${File.separator}cfd${File.separator}", "${File.separator}common${File.separator}")
     }
     download {
         src url
@@ -15,7 +15,7 @@ void downloadSatResouce(List<String> downloads, String url, String baseUrl, Stri
         overwrite true
     }
     File file = new File(filePath)
-    downloads.add(filePath.replace('src/main/resources', ''))
+    downloads.add(filePath.replace("src${File.separator}main${File.separator}resources", ''))
 
     String regexFilter = url.endsWith('.xsd') ?
             '(?<=schemaLocation=\")(.*?)(?=\")' : //regex to find schema location
@@ -26,16 +26,16 @@ void downloadSatResouce(List<String> downloads, String url, String baseUrl, Stri
                 downloadSatResouce(downloads, newUrlResource, baseUrl, basePath) //make recursive with all schema locations or xslt includes
                 if (newUrlResource.endsWith('.xslt') && !newUrlResource.contains('cadenaoriginal')) {
                     //also download xsd files of every xslt
-                    if (newUrlResource.equalsIgnoreCase("http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/CartaPorte20.xslt")) {
-                        downloadSatResouce(downloads, "http://www.sat.gob.mx/sitio_internet/cfd/CartaPorte/CartaPorte20.xsd", baseUrl, basePath.replace('/xslt/', '/xsd/'))
+                    if (newUrlResource.equalsIgnoreCase('http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/CartaPorte20.xslt')) {
+                        downloadSatResouce(downloads, 'http://www.sat.gob.mx/sitio_internet/cfd/CartaPorte/CartaPorte20.xsd', baseUrl, basePath.replace("${File.separator}xslt${File.separator}", "${File.separator}xsd${File.separator}"))
                     } else {
-                        downloadSatResouce(downloads, newUrlResource.replace('.xslt', '.xsd'), baseUrl, basePath.replace('/xslt/', '/xsd/'))
+                        downloadSatResouce(downloads, newUrlResource.replace('.xslt', '.xsd'), baseUrl, basePath.replace("${File.separator}xslt${File.separator}", "${File.separator}xsd${File.separator}"))
                     }
                 }
-                String newUrlName = newUrlResource.substring(newUrlResource.lastIndexOf('/') + 1)
+                String newUrlName = newUrlResource.substring(newUrlResource.lastIndexOf(File.separator) + 1)
                 String localPath = downloads.find { value -> value.endsWith(newUrlName) }
                 if (localPath.endsWith('.xsd')) {
-                    String relativePath = "./" + new File("$rootDir/$filePath").parentFile.relativePath(new File("$rootDir/src/main/resources$localPath"))
+                    String relativePath = ".${File.separator}" + new File("$rootDir${File.separator}$filePath").parentFile.relativePath(new File("$rootDir${File.separator}src${File.separator}main${File.separator}resources$localPath"))
                     content = content.replace(newUrlResource, relativePath) //replace value with local file
                 } else if (localPath.endsWith('.xslt')) {
                     content = content.replace(newUrlResource, localPath) //replace value with local file
@@ -183,14 +183,14 @@ void downloadSatResouce(List<String> downloads, String url, String baseUrl, Stri
 static void replaceXsd(String filePath, List<String> downloads) {
     //Need to order, first tipoDatos and catalogos
     Comparator<String> comparator = { a, b ->
-        if ((a.contains('/catalogos/') || a.contains('/tipoDatos/'))) {
-            if (b.contains('/catalogos/') || b.contains('/tipoDatos/')) {
+        if ((a.contains("${File.separator}catalogos${File.separator}") || a.contains("${File.separator}tipoDatos${File.separator}"))) {
+            if (b.contains("${File.separator}catalogos${File.separator}") || b.contains("${File.separator}tipoDatos${File.separator}")) {
                 return a <=> b
             } else {
                 return -1
             }
         } else {
-            if (b.contains('/catalogos/') || b.contains('/tipoDatos/')) {
+            if (b.contains("${File.separator}catalogos${File.separator}") || b.contains("${File.separator}tipoDatos${File.separator}")) {
                 return 1
             } else {
                 return a <=> b
@@ -231,21 +231,21 @@ tasks.register("satResources") {
         //Create list with all version and schema definition to download
         Map<String, List<String>> map = new HashMap<>()
         map.put(
-                'src/main/java/mx/grupocorasa/sat/cfd/CFDv20.java',
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfd${File.separator}CFDv20.java",
                 [
                         'http://www.sat.gob.mx/sitio_internet/cfd/2/cadenaoriginal_2_0/cadenaoriginal_2_0.xslt',
                         'http://www.sat.gob.mx/sitio_internet/cfd/2/cfdv2.xsd'
                 ]
         )
         map.put(
-                'src/main/java/mx/grupocorasa/sat/cfd/CFDv22.java',
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfd${File.separator}CFDv22.java",
                 [
                         'http://www.sat.gob.mx/sitio_internet/cfd/2/cadenaoriginal_2_2/cadenaoriginal_2_2.xslt',
                         'http://www.sat.gob.mx/sitio_internet/cfd/2/cfdv22.xsd'
                 ]
         )
         map.put(
-                'src/main/java/mx/grupocorasa/sat/cfdi/CFDv30.java',
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfdi${File.separator}CFDv30.java",
                 [
                         'http://www.sat.gob.mx/sitio_internet/cfd/3/cadenaoriginal_3_0/cadenaoriginal_3_0.xslt',
                         'http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv3.xsd',
@@ -254,7 +254,7 @@ tasks.register("satResources") {
                 ]
         )
         map.put(
-                'src/main/java/mx/grupocorasa/sat/cfdi/CFDv32.java',
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfdi${File.separator}CFDv32.java",
                 [
                         'http://www.sat.gob.mx/sitio_internet/cfd/3/cadenaoriginal_3_2/cadenaoriginal_3_2.xslt',
                         'http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd',
@@ -263,7 +263,7 @@ tasks.register("satResources") {
                 ]
         )
         map.put(
-                'src/main/java/mx/grupocorasa/sat/cfdi/CFDv33.java',
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfdi${File.separator}CFDv33.java",
                 [
                         'http://www.sat.gob.mx/sitio_internet/cfd/3/cadenaoriginal_3_3/cadenaoriginal_3_3.xslt',
                         'http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd',
@@ -279,15 +279,15 @@ tasks.register("satResources") {
                         localDownloads,
                         url,
                         'http://www.sat.gob.mx/sitio_internet/',
-                        'src/main/resources/'
+                        "src${File.separator}main${File.separator}resources${File.separator}"
                 )
             }
             replaceXsd(Class, localDownloads)
             replaceXslt(
                     Class,
                     urls
-                            .find { value -> value.endsWith(".xslt") }
-                            .replace('http://www.sat.gob.mx/sitio_internet/', '/xslt/')
+                            .find { value -> value.endsWith('.xslt') }
+                            .replace('http://www.sat.gob.mx/sitio_internet/', "${File.separator}xslt${File.separator}")
             )
             allDownloads.addAll(localDownloads)
         }
@@ -299,16 +299,16 @@ tasks.register("satResources") {
         String xsdRegexCats = '(?<=schemaLocation=\")(.*?)(?=\")'
         allDownloads.unique().findAll { filePath -> filePath.endsWith('.xsd') }
                 .each { filePath ->
-                    File _cbf = null
-                    File actualXsd = new File("${rootDir}/src/main/resources" + filePath)
+                    File _cbf
+                    File actualXsd = new File("${rootDir}${File.separator}src${File.separator}main${File.separator}resources" + filePath)
                     String xsdContent = actualXsd.getText('UTF-8')
                     String packageName = filePath
-                            .substring(1, filePath.lastIndexOf('/'))
-                            .replace('/', '.')
+                            .substring(1, filePath.lastIndexOf(File.separator))
+                            .replace(File.separator, '.')
                             .replace('xsd', 'mx.grupocorasa.sat')
                             .replace('.2', '._2')
                             .replace('.3', '._3')
-                    String version = new File("${rootDir}/src/main/resources/${filePath.substring(1)}").getText('UTF-8').find('(?<=xs:attribute name="(V|v)ersion")((.)*?)(?=>)')
+                    String version = new File("${rootDir}${File.separator}src${File.separator}main${File.separator}resources/${filePath.substring(1)}").getText('UTF-8').find('(?<=xs:attribute name="(V|v)ersion")((.)*?)(?=>)')
                     if (version != null) {
                         version = version.find('(?<=fixed=")((.)*?)(?=")').replace(".", "")
                     }
@@ -333,7 +333,7 @@ tasks.register("satResources") {
                                     _customBindingContent = _customBindingContent + """\n\t<jaxb:bindings>
         <jaxb:bindings schemaLocation="../xsd/common${fileName}" node="/xs:schema">
             <jaxb:schemaBindings>
-                <jaxb:package name="mx.grupocorasa.sat.common${fileName.substring(0, fileName.lastIndexOf("/")).replace("/", ".")}"/>
+                <jaxb:package name="mx.grupocorasa.sat.common${fileName.substring(0, fileName.lastIndexOf(File.separator)).replace(File.separator, '.')}"/>
             </jaxb:schemaBindings>
         </jaxb:bindings>
     </jaxb:bindings>"""
@@ -347,13 +347,13 @@ tasks.register("satResources") {
         </jaxb:bindings>
     </jaxb:bindings>
 </jaxb:bindings>"""
-                    _cbf = new File("src/main/resources/bindingFiles/${actualXsd.getName().replace(".xsd", "_bind.xml")}")
+                    _cbf = new File("src${File.separator}main${File.separator}resources${File.separator}bindingFiles${File.separator}${actualXsd.getName().replace(".xsd", "_bind.xml")}")
                     if (!_cbf.getParentFile().exists()) _cbf.getParentFile().mkdir()
                     _cbf.setText(_customBindingContent, 'UTF-8')
 
                     bindingFileContent += "\t\t" + packageName.replace('.', '_').replace('__', '_') + "{\n" +
-                            "\t\t\tbindingFile = '" + (_cbf == null ? 'src/main/resources/bind.xml' : _cbf.getPath()) + "'\n" +
-                            "\t\t\tschemaRootDir = 'src/main/resources'\n" +
+                            "\t\t\tbindingFile = '" + (_cbf == null ? "src${File.separator}main${File.separator}resources${File.separator}bind.xml" : _cbf.getPath()) + "'\n" +
+                            "\t\t\tschemaRootDir = 'src${File.separator}main${File.separator}resources'\n" +
                             "\t\t\tschemaFile = '" + filePath.substring(1) + "'\n" +
                             "\t\t}\n"
                     if (packageName.contains(".common.")) namespaceMap.put(packageName, filePath.substring(1))
@@ -369,12 +369,12 @@ tasks.register("satResources") {
 
         String mapString = ''
         namespaceMap.forEach { pkg, xsd ->
-            String xsdContent = new File('src/main/resources/' + xsd).getText('UTF-8')
-            int start_index = xsdContent.indexOf("targetNamespace")
+            String xsdContent = new File("src${File.separator}main${File.separator}resources${File.separator}" + xsd).getText('UTF-8')
+            int start_index = xsdContent.indexOf('targetNamespace')
             String matcher = (xsdContent.substring(start_index, start_index + 150) =~ '(?<=targetNamespace=")((.)*?)(?=")').findAll()[0][0]
             mapString = mapString + '\n\t\tnamespaceMap.put("' + pkg + '", "' + matcher + '");'
         }
-        file = new File('src/main/java/mx/grupocorasa/sat/common/CfdCommon.java')
+        file = new File("src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}common${File.separator}CfdCommon.java")
         content = file.getText('UTF-8')
         first_index = content.indexOf('Map<String, String> namespaceMap = new HashMap<>();') + ('Map<String, String> namespaceMap = new HashMap<>();'.length())
         last_index = content.indexOf('return namespaceMap;')
@@ -389,9 +389,9 @@ tasks.register("cleanSatResources") {
 
     doLast {
         List<String> genFolders = [
-                "${rootDir}/src/main/resources/xsd/",
-                "${rootDir}/src/main/resources/xslt/",
-                "${rootDir}/src/main/resources/bindingFiles/"
+                "${rootDir}${File.separator}src${File.separator}main${File.separator}resources${File.separator}xsd${File.separator}",
+                "${rootDir}${File.separator}src${File.separator}main${File.separator}resources${File.separator}xslt${File.separator}",
+                "${rootDir}${File.separator}src${File.separator}main${File.separator}resources${File.separator}bindingFiles${File.separator}"
         ]
         genFolders.each {
             if (new File(it).exists()) {
@@ -400,11 +400,11 @@ tasks.register("cleanSatResources") {
         }
 
         List<String> cfds = [
-                'src/main/java/mx/grupocorasa/sat/cfd/CFDv20.java',
-                'src/main/java/mx/grupocorasa/sat/cfd/CFDv22.java',
-                'src/main/java/mx/grupocorasa/sat/cfdi/CFDv30.java',
-                'src/main/java/mx/grupocorasa/sat/cfdi/CFDv32.java',
-                'src/main/java/mx/grupocorasa/sat/cfdi/CFDv33.java'
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfd${File.separator}CFDv20.java",
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfd${File.separator}CFDv22.java",
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfdi${File.separator}CFDv30.java",
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfdi${File.separator}CFDv32.java",
+                "src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}cfdi${File.separator}CFDv33.java"
         ]
 
         cfds.each { f ->
@@ -430,7 +430,7 @@ tasks.register("cleanSatResources") {
         file.setText(content, 'UTF-8')
 
         startToken = 'Map<String, String> namespaceMap = new HashMap<>();'
-        file = new File('src/main/java/mx/grupocorasa/sat/common/CfdCommon.java')
+        file = new File("src${File.separator}main${File.separator}java${File.separator}mx${File.separator}grupocorasa${File.separator}sat${File.separator}common${File.separator}CfdCommon.java")
         content = file.getText('UTF-8')
         first_index = content.indexOf(startToken) + (startToken.length())
         last_index = content.indexOf('return namespaceMap;')
