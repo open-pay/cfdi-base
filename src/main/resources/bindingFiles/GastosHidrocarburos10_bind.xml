@@ -9,13 +9,6 @@
         </jaxb:globalBindings>
     </jaxb:bindings>
 	<jaxb:bindings>
-        <jaxb:bindings schemaLocation="../xsd/common/catalogos/hidrocarburos/catHidrocarburos.xsd" node="/xs:schema">
-            <jaxb:schemaBindings>
-                <jaxb:package name="mx.grupocorasa.sat.common.catalogos.hidrocarburos"/>
-            </jaxb:schemaBindings>
-        </jaxb:bindings>
-    </jaxb:bindings>
-	<jaxb:bindings>
         <jaxb:bindings schemaLocation="../xsd/common/GastosHidrocarburos10/GastosHidrocarburos10.xsd" node="/xs:schema">
             <jaxb:schemaBindings>
                 <jaxb:package name="mx.grupocorasa.sat.common.GastosHidrocarburos10"/>

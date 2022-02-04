@@ -9,13 +9,6 @@
         </jaxb:globalBindings>
     </jaxb:bindings>
 	<jaxb:bindings>
-        <jaxb:bindings schemaLocation="../xsd/common/catalogos/Combustible/catCombustible.xsd" node="/xs:schema">
-            <jaxb:schemaBindings>
-                <jaxb:package name="mx.grupocorasa.sat.common.catalogos.Combustible"/>
-            </jaxb:schemaBindings>
-        </jaxb:bindings>
-    </jaxb:bindings>
-	<jaxb:bindings>
         <jaxb:bindings schemaLocation="../xsd/common/EstadoDeCuentaCombustible/ecc12.xsd" node="/xs:schema">
             <jaxb:schemaBindings>
                 <jaxb:package name="mx.grupocorasa.sat.common.EstadoDeCuentaCombustible12"/>

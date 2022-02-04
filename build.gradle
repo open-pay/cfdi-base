@@ -11,23 +11,23 @@ apply from: 'download.gradle'
 group 'mx.grupocorasa.cfdibase'
 version '3.3.2'
 
-publishing {
-    repositories {
-        maven {
-            name = "cfdi-base"
-            url = uri("https://maven.pkg.github.com/grupocorasa/cfdi-base")
-            credentials {
-                username = env.USERNAME.value
-                password = env.GP_TOKEN.value
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
+//publishing {
+//    repositories {
+//        maven {
+//            name = "cfdi-base"
+//            url = uri("https://maven.pkg.github.com/grupocorasa/cfdi-base")
+//            credentials {
+//                username = env.USERNAME.value
+//                password = env.GP_TOKEN.value
+//            }
+//        }
+//    }
+//    publications {
+//        gpr(MavenPublication) {
+//            from(components.java)
+//        }
+//    }
+//}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -240,7 +240,7 @@ xjcGeneration {
         mx_grupocorasa_sat_common_CartaPorte20 {
             bindingFile = 'src/main/resources/bindingFiles/CartaPorte20_bind.xml'
             schemaRootDir = 'src/main/resources'
-            schemaFile = 'xsd/common/CartaPorte20/CartaPorte20.xsd'
+            schemaFile = 'xsd/common/CartaPorte/CartaPorte20.xsd'
         }
         mx_grupocorasa_sat_cfd_33 {
             bindingFile = 'src/main/resources/bindingFiles/cfdv33_bind.xml'
