@@ -202,7 +202,7 @@ static void replaceXsd(String filePath, List<String> downloads) {
     File file = new File(filePath)
     String content = file.getText('UTF-8')
             .replaceAll(
-                    '(?<=private final String\\[] XSD = new String\\[]\\{)((.|\\n)*?)(?=\\};)',
+                    '(?s)(?<=private final String\\[] XSD = new String\\[]\\{)(.*?)(?=\\};)',
                     '\n            ' + imports.join(',\n            ') + '\n    '
             )
     file.setText(content, 'UTF-8')
