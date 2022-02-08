@@ -12,25 +12,23 @@ apply from: 'download.gradle'
 group 'mx.openpay'
 version '4.0.10'
 
-/*
 publishing {
     repositories {
         maven {
-            name = "cfdi-base"
-            url = uri("https://maven.pkg.github.com/grupocorasa/cfdi-base")
+            name = "nexus"
+            url = uri(project.hasProperty('nexusUrl') ? project.property('nexusUrl') : '')
             credentials {
-                username = env.USERNAME.value
-                password = env.GP_TOKEN.value
+                username project.hasProperty('nexusUser') ? project.property('nexusUser') : ''
+                password project.hasProperty('nexusPassword') ? project.property('nexusPassword') : ''
             }
         }
     }
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+        maven(MavenPublication) {
+			 from components.java
         }
     }
 }
-*/
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
