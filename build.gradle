@@ -352,17 +352,9 @@ xjcGeneration {
 	}
 }
 //END OF XJC-GEN
-//***DO NOT EDIT*** TO HERE
+// ***DO NOT EDIT*** TO HERE
 
 sourceCompatibility = JavaVersion.VERSION_1_8
-
-sourceSets {
-    main {
-        java {
-            srcDir "${buildDir.absolutePath}/generated-sources"
-        }
-    }
-}
 
 repositories {
     mavenCentral()
