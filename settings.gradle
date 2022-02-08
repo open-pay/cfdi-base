@@ -1,2 +1,3 @@
-rootProject.name = 'cfdi-base'
+// Cambiado nombre de proyecto para diferenciar compilaciones
+rootProject.name = 'openpay-cfdi-base'
 

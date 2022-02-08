@@ -8,9 +8,11 @@ plugins {
 
 apply from: 'download.gradle'
 
-group 'mx.grupocorasa.cfdibase'
+// Cambiado paquete para diferenciar los proyectos
+group 'mx.openpay'
 version '4.0.10'
 
+/*
 publishing {
     repositories {
         maven {
@@ -28,6 +30,7 @@ publishing {
         }
     }
 }
+*/
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
