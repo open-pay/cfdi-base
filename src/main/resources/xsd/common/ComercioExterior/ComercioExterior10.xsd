@@ -1,0 +1,814 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:cce="http://www.sat.gob.mx/ComercioExterior"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://www.sat.gob.mx/ComercioExterior"
+elementFormDefault="qualified"
+attributeFormDefault="unqualified">
+  <xs:element name="ComercioExterior">
+    <xs:annotation>
+      <xs:documentation>Complemento para incorporar la información en el caso de Exportación de Mercancías en definitiva.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Emisor" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Nodo opcional para capturar los datos complementarios del emisor del comprobante.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="Curp" use="optional" type="cce:t_CURP">
+              <xs:annotation>
+                <xs:documentation>Atributo opcional para expresar la CURP del emisor del CFDI cuando es una persona física.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Receptor" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Nodo requerido para capturar los datos complementarios del receptor del CFDI.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="Curp" use="optional" type="cce:t_CURP">
+              <xs:annotation>
+                <xs:documentation>Atributo opcional para expresar la CURP del receptor del CFDI cuando es una persona física.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="NumRegIdTrib" use="required">
+              <xs:annotation>
+                <xs:documentation>Atributo requerido para incorporar el número de identificación o registro fiscal del país de residencia para efectos fiscales del receptor del CFDI.</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="6"/>
+                  <xs:maxLength value="40"/>
+                  <xs:whiteSpace value="collapse"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Destinatario" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Nodo opcional para capturar los datos del destinatario de la mercancía cuando éste sea distinto del receptor del CFDI.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Domicilio" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Nodo requerido para expresar el domicilio del destinatario de la mercancía.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Calle" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Atributo requerido sirve para precisar la calle en que está ubicado el domicilio del destinatario de la mercancía.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="100"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="NumeroExterior" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional sirve para expresar el número exterior en donde se ubica el domicilio del destinatario de la mercancía.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="55"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="NumeroInterior" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional sirve para expresar el número interior, en caso de existir, en donde se ubica el domicilio del destinatario de la mercancía.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="55"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Colonia" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional sirve para expresar la colonia o dato análogo en donde se ubica el domicilio del destinatario de la mercancía.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="120"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Localidad" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional que sirve para precisar la ciudad, población, distrito u otro análogo en donde se ubica el domicilio del  destinatario de la mercancía.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="120"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Referencia" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional para expresar una referencia geográfica adicional que permita una más fácil o precisa ubicación del domicilio del destinatario de la mercancía, por ejemplo las coordenadas GPS.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="250"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Municipio" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional que sirve para precisar el municipio, delegación, condado u otro análogo en donde se encuentra ubicado el destinatario de la mercancía.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="120"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Estado" use="required">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Atributo requerido para señalar el estado, entidad, región, comunidad u otra figura análoga en donde  se encuentra ubicado el  domicilio del destinatario de la mercancía.
+                        El catálogo se publicará en el portal del SAT y será conforme con la especificación ISO 3166-2.
+                      </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="30"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Pais" type="cce:c_Pais" use="required">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Atributo requerido que sirve para precisar el país donde  se encuentra ubicado el destinatario de la mercancía.
+                        El catálogo se publicará en el portal del SAT y será conforme con la especificación ISO 3166-1.
+                      </xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="CodigoPostal" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Atributo requerido que sirve para asentar el código postal (PO, BOX) en donde se encuentra ubicado el domicilio del destinatario de la mercancía.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="12"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="NumRegIdTrib" use="optional">
+              <xs:annotation>
+                <xs:documentation>Atributo opcional para incorporar el número de identificación o registro fiscal del país de residencia para efectos fiscales del destinatario de la mercancía exportada.</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="6"/>
+                  <xs:maxLength value="40"/>
+                  <xs:whiteSpace value="collapse"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Rfc" use="optional" type="cce:t_RFC">
+              <xs:annotation>
+                <xs:documentation>Atributo opcional para expresar el RFC del destinatario de la mercancía exportada.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Curp" use="optional" type="cce:t_CURP">
+              <xs:annotation>
+                <xs:documentation>Atributo opcional para expresar la CURP del destinatario de la mercancía cuando es persona física.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Nombre" use="optional">
+              <xs:annotation>
+                <xs:documentation>Atributo opcional para expresar el nombre completo, denominación o razón social del destinatario de la mercancía exportada.</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="1"/>
+                  <xs:maxLength value="300"/>
+                  <xs:whiteSpace value="collapse"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Mercancias" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Nodo opcional para capturar la información de la declaración de las mercancías exportadas.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Mercancia" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Nodo requerido para capturar la información de la declaración de cada mercancía exportada.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="DescripcionesEspecificas" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>Nodo opcional que indica la lista de descripciones específicas de la mercancía. Una mercancía puede tener más de una descripción específica.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="Marca" use="required">
+                          <xs:annotation>
+                            <xs:documentation>Atributo requerido que indica la marca de la mercancía.</xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:minLength value="1"/>
+                              <xs:maxLength value="35"/>
+                              <xs:whiteSpace value="collapse"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Modelo" use="optional">
+                          <xs:annotation>
+                            <xs:documentation>Atributo opcional que indica el modelo de la mercancía.</xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:whiteSpace value="collapse"/>
+                              <xs:minLength value="1"/>
+                              <xs:maxLength value="80"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="SubModelo" use="optional">
+                          <xs:annotation>
+                            <xs:documentation>Atributo opcional que indica el submodelo de la mercancía.</xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:whiteSpace value="collapse"/>
+                              <xs:minLength value="1"/>
+                              <xs:maxLength value="50"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="NumeroSerie" use="optional">
+                          <xs:annotation>
+                            <xs:documentation>Atributo opcional que indica el número de serie de la mercancía.</xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:whiteSpace value="collapse"/>
+                              <xs:minLength value="1"/>
+                              <xs:maxLength value="40"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="NoIdentificacion" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Atributo requerido que sirve para expresar el número de parte, la clave de identificación que asigna la empresa o el número de serie de la mercancía exportada.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="100"/>
+                        <xs:whiteSpace value="collapse"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="FraccionArancelaria" type="cce:c_FraccionArancelaria" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional que sirve para expresar la fracción arancelaria correspondiente a la descripción de la mercancía exportada, este dato se vuelve requerido cuando se cuente con él o se esté obligado legalmente a contar con él.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="CantidadAduana" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional para precisar la cantidad de bienes en la aduana conforme a la UnidadAduana cuando en el nodo Comprobante:Conceptos:Concepto se hubiera registrado información comercial.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:minInclusive value="0.001"/>
+                        <xs:whiteSpace value="collapse"/>
+                        <xs:pattern value="[0-9]{1,14}(.([0-9]{1,3}))?"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="UnidadAduana" type="cce:c_UnidadMedidaAduana" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional para precisar la unidad de medida aplicable para la cantidad expresada en la mercancía en la aduana.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="ValorUnitarioAduana" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Atributo opcional para precisar el valor o precio unitario del bien en la aduana. Se expresa en dólares de Estados Unidos (USD).</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:whiteSpace value="collapse"/>
+                        <xs:minInclusive value="0.00"/>
+                        <xs:pattern value="[0-9]{1,16}(.([0-9]{1,2}))?"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="ValorDolares" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Atributo requerido que indica el valor total en dólares de Estados Unidos.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:whiteSpace value="collapse"/>
+                        <xs:minInclusive value="0.01"/>
+                        <xs:pattern value="[0-9]{1,16}(.([0-9]{1,2}))?"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="Version" use="required" type="xs:string" fixed="1.0">
+        <xs:annotation>
+          <xs:documentation>Atributo requerido que indica la versión del complemento.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="TipoOperacion" use="required" type="cce:c_TipoOperacion">
+        <xs:annotation>
+          <xs:documentation>Atributo requerido que indica el tipo de operación de comercio exterior que se realiza, puede ser importación o exportación, A = exportación de servicios. 2 = exportación.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="ClaveDePedimento" use="optional" type="cce:c_ClavePedimento">
+        <xs:annotation>
+          <xs:documentation>Atributo que indica la clave de pedimento que se haya declarado conforme al apéndice 2 del anexo 22 de las reglas generales de comercio exterior.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="CertificadoOrigen" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo derivado de la excepción de certificados de Origen de los Tratados de Libre Comercio que ha celebrado México con diversos países. 0 = No Funge como certificado de origen 1 = Funge como certificado de origen.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="NumCertificadoOrigen" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo opcional para expresar el folio del certificado de origen o el folio fiscal del CFDI con el que se pagó la expedición del certificado de origen.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="6"/>
+            <xs:maxLength value="40"/>
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}|[A-Za-z0-9,#,+,%,(&amp;) ]{6,40}"/>
+          </xs:restriction>
+        </xs:simpleType>
+
+
+
+      </xs:attribute>
+      <xs:attribute name="NumeroExportadorConfiable" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo opcional que indica el número de exportador confiable, conforme al artículo 22 del Anexo 1 del Tratado de Libre Comercio con la Asociación Europea y a la Decisión de la Comunidad Europea.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+            <xs:whiteSpace value="collapse"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="Incoterm" type="cce:c_INCOTERM" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo que indica la clave del INCOTERM aplicable a la factura.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Subdivision" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo que indica si la factura tiene o no subdivisión. Valores posibles:0 - no tiene subdivisión,1 - si tiene subdivisión.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:whiteSpace value="collapse"/>
+            <xs:enumeration value="0">
+              <xs:annotation>
+                <xs:documentation>no tiene subdivisión.</xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="1">
+              <xs:annotation>
+                <xs:documentation>si tiene subdivisión.</xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="Observaciones" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo opcional en caso de ingresar alguna información adicional, como alguna leyenda que debe incluir el CFDI.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="300"/>
+            <xs:whiteSpace value="collapse"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="TipoCambioUSD" type="cce:t_Importe" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo que indica el número de pesos mexicanos que equivalen a un dólar de Estados Unidos, de acuerdo al artículo 20 del Código Fiscal de la Federación.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="TotalUSD" type="cce:t_Importe" use="optional">
+        <xs:annotation>
+          <xs:documentation>Atributo que indica el importe total del comprobante en dólares de Estados Unidos.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="c_TipoOperacion">
+    <xs:annotation>
+      <xs:documentation>Tipo de operación de comercio exterior</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="A" />
+      <xs:enumeration value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="c_ClavePedimento">
+    <xs:annotation>
+      <xs:documentation>Clave de pedimento</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="A1" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="c_INCOTERM">
+    <xs:annotation>
+      <xs:documentation>Clave del INCOTERM</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CFR" />
+      <xs:enumeration value="CIF" />
+      <xs:enumeration value="CPT" />
+      <xs:enumeration value="CIP" />
+      <xs:enumeration value="DAF" />
+      <xs:enumeration value="DAP" />
+      <xs:enumeration value="DAT" />
+      <xs:enumeration value="DES" />
+      <xs:enumeration value="DEQ" />
+      <xs:enumeration value="DDU" />
+      <xs:enumeration value="DDP" />
+      <xs:enumeration value="EXW" />
+      <xs:enumeration value="FCA" />
+      <xs:enumeration value="FAS" />
+      <xs:enumeration value="FOB" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="t_Importe">
+    <xs:annotation>
+      <xs:documentation>Tipo definido para expresar importes numéricos con fracción hasta seis decimales</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:fractionDigits value="6"/>
+      <xs:whiteSpace value="collapse"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="t_CURP">
+    <xs:annotation>
+      <xs:documentation>Tipo definido para la expresión de la Clave Única del Registro Poblacional. Solo aplicable para Personas Físicas.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="collapse"/>
+      <xs:length value="18"/>
+      <xs:pattern value="[A-Z][AEIOUX][A-Z]{2}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[MH]([ABCMTZ]S|[BCJMOT]C|[CNPST]L|[GNQ]T|[GQS]R|C[MH]|[MY]N|[DH]G|NE|VZ|DF|SP)[BCDFGHJ-NP-TV-Z]{3}[0-9A-Z][0-9]"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="t_RFC">
+    <xs:annotation>
+      <xs:documentation>Tipo definido para expresar claves del Registro Federal de Contribuyentes</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="12"/>
+      <xs:maxLength value="13"/>
+      <xs:whiteSpace value="collapse"/>
+      <xs:pattern value="[A-Z&amp;Ñ]{3,4}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="c_Pais">
+    <xs:annotation>
+      <xs:documentation>Claves de pais</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AFG"/>
+      <xs:enumeration value="ALA"/>
+      <xs:enumeration value="ALB"/>
+      <xs:enumeration value="DEU"/>
+      <xs:enumeration value="AND"/>
+      <xs:enumeration value="AGO"/>
+      <xs:enumeration value="AIA"/>
+      <xs:enumeration value="ATA"/>
+      <xs:enumeration value="ATG"/>
+      <xs:enumeration value="SAU"/>
+      <xs:enumeration value="DZA"/>
+      <xs:enumeration value="ARG"/>
+      <xs:enumeration value="ARM"/>
+      <xs:enumeration value="ABW"/>
+      <xs:enumeration value="AUS"/>
+      <xs:enumeration value="AUT"/>
+      <xs:enumeration value="AZE"/>
+      <xs:enumeration value="BHS"/>
+      <xs:enumeration value="BGD"/>
+      <xs:enumeration value="BRB"/>
+      <xs:enumeration value="BHR"/>
+      <xs:enumeration value="BEL"/>
+      <xs:enumeration value="BLZ"/>
+      <xs:enumeration value="BEN"/>
+      <xs:enumeration value="BMU"/>
+      <xs:enumeration value="BLR"/>
+      <xs:enumeration value="MMR"/>
+      <xs:enumeration value="BOL"/>
+      <xs:enumeration value="BIH"/>
+      <xs:enumeration value="BWA"/>
+      <xs:enumeration value="BRA"/>
+      <xs:enumeration value="BRN"/>
+      <xs:enumeration value="BGR"/>
+      <xs:enumeration value="BFA"/>
+      <xs:enumeration value="BDI"/>
+      <xs:enumeration value="BTN"/>
+      <xs:enumeration value="CPV"/>
+      <xs:enumeration value="KHM"/>
+      <xs:enumeration value="CMR"/>
+      <xs:enumeration value="CAN"/>
+      <xs:enumeration value="QAT"/>
+      <xs:enumeration value="BES"/>
+      <xs:enumeration value="TCD"/>
+      <xs:enumeration value="CHL"/>
+      <xs:enumeration value="CHN"/>
+      <xs:enumeration value="CYP"/>
+      <xs:enumeration value="COL"/>
+      <xs:enumeration value="COM"/>
+      <xs:enumeration value="PRK"/>
+      <xs:enumeration value="KOR"/>
+      <xs:enumeration value="CIV"/>
+      <xs:enumeration value="CRI"/>
+      <xs:enumeration value="HRV"/>
+      <xs:enumeration value="CUB"/>
+      <xs:enumeration value="CUW"/>
+      <xs:enumeration value="DNK"/>
+      <xs:enumeration value="DMA"/>
+      <xs:enumeration value="ECU"/>
+      <xs:enumeration value="EGY"/>
+      <xs:enumeration value="SLV"/>
+      <xs:enumeration value="ARE"/>
+      <xs:enumeration value="ERI"/>
+      <xs:enumeration value="SVK"/>
+      <xs:enumeration value="SVN"/>
+      <xs:enumeration value="ESP"/>
+      <xs:enumeration value="USA"/>
+      <xs:enumeration value="EST"/>
+      <xs:enumeration value="ETH"/>
+      <xs:enumeration value="PHL"/>
+      <xs:enumeration value="FIN"/>
+      <xs:enumeration value="FJI"/>
+      <xs:enumeration value="FRA"/>
+      <xs:enumeration value="GAB"/>
+      <xs:enumeration value="GMB"/>
+      <xs:enumeration value="GEO"/>
+      <xs:enumeration value="GHA"/>
+      <xs:enumeration value="GIB"/>
+      <xs:enumeration value="GRD"/>
+      <xs:enumeration value="GRC"/>
+      <xs:enumeration value="GRL"/>
+      <xs:enumeration value="GLP"/>
+      <xs:enumeration value="GUM"/>
+      <xs:enumeration value="GTM"/>
+      <xs:enumeration value="GUF"/>
+      <xs:enumeration value="GGY"/>
+      <xs:enumeration value="GIN"/>
+      <xs:enumeration value="GNB"/>
+      <xs:enumeration value="GNQ"/>
+      <xs:enumeration value="GUY"/>
+      <xs:enumeration value="HTI"/>
+      <xs:enumeration value="HND"/>
+      <xs:enumeration value="HKG"/>
+      <xs:enumeration value="HUN"/>
+      <xs:enumeration value="IND"/>
+      <xs:enumeration value="IDN"/>
+      <xs:enumeration value="IRQ"/>
+      <xs:enumeration value="IRN"/>
+      <xs:enumeration value="IRL"/>
+      <xs:enumeration value="BVT"/>
+      <xs:enumeration value="IMN"/>
+      <xs:enumeration value="CXR"/>
+      <xs:enumeration value="NFK"/>
+      <xs:enumeration value="ISL"/>
+      <xs:enumeration value="CYM"/>
+      <xs:enumeration value="CCK"/>
+      <xs:enumeration value="COK"/>
+      <xs:enumeration value="FRO"/>
+      <xs:enumeration value="SGS"/>
+      <xs:enumeration value="HMD"/>
+      <xs:enumeration value="FLK"/>
+      <xs:enumeration value="MNP"/>
+      <xs:enumeration value="MHL"/>
+      <xs:enumeration value="PCN"/>
+      <xs:enumeration value="SLB"/>
+      <xs:enumeration value="TCA"/>
+      <xs:enumeration value="UMI"/>
+      <xs:enumeration value="VGB"/>
+      <xs:enumeration value="VIR"/>
+      <xs:enumeration value="ISR"/>
+      <xs:enumeration value="ITA"/>
+      <xs:enumeration value="JAM"/>
+      <xs:enumeration value="JPN"/>
+      <xs:enumeration value="JEY"/>
+      <xs:enumeration value="JOR"/>
+      <xs:enumeration value="KAZ"/>
+      <xs:enumeration value="KEN"/>
+      <xs:enumeration value="KGZ"/>
+      <xs:enumeration value="KIR"/>
+      <xs:enumeration value="KWT"/>
+      <xs:enumeration value="LAO"/>
+      <xs:enumeration value="LSO"/>
+      <xs:enumeration value="LVA"/>
+      <xs:enumeration value="LBN"/>
+      <xs:enumeration value="LBR"/>
+      <xs:enumeration value="LBY"/>
+      <xs:enumeration value="LIE"/>
+      <xs:enumeration value="LTU"/>
+      <xs:enumeration value="LUX"/>
+      <xs:enumeration value="MAC"/>
+      <xs:enumeration value="MDG"/>
+      <xs:enumeration value="MYS"/>
+      <xs:enumeration value="MWI"/>
+      <xs:enumeration value="MDV"/>
+      <xs:enumeration value="MLI"/>
+      <xs:enumeration value="MLT"/>
+      <xs:enumeration value="MAR"/>
+      <xs:enumeration value="MTQ"/>
+      <xs:enumeration value="MUS"/>
+      <xs:enumeration value="MRT"/>
+      <xs:enumeration value="MYT"/>
+      <xs:enumeration value="MEX"/>
+      <xs:enumeration value="FSM"/>
+      <xs:enumeration value="MDA"/>
+      <xs:enumeration value="MCO"/>
+      <xs:enumeration value="MNG"/>
+      <xs:enumeration value="MNE"/>
+      <xs:enumeration value="MSR"/>
+      <xs:enumeration value="MOZ"/>
+      <xs:enumeration value="NAM"/>
+      <xs:enumeration value="NRU"/>
+      <xs:enumeration value="NPL"/>
+      <xs:enumeration value="NIC"/>
+      <xs:enumeration value="NER"/>
+      <xs:enumeration value="NGA"/>
+      <xs:enumeration value="NIU"/>
+      <xs:enumeration value="NOR"/>
+      <xs:enumeration value="NCL"/>
+      <xs:enumeration value="NZL"/>
+      <xs:enumeration value="OMN"/>
+      <xs:enumeration value="NLD"/>
+      <xs:enumeration value="PAK"/>
+      <xs:enumeration value="PLW"/>
+      <xs:enumeration value="PSE"/>
+      <xs:enumeration value="PAN"/>
+      <xs:enumeration value="PNG"/>
+      <xs:enumeration value="PRY"/>
+      <xs:enumeration value="PER"/>
+      <xs:enumeration value="PYF"/>
+      <xs:enumeration value="POL"/>
+      <xs:enumeration value="PRT"/>
+      <xs:enumeration value="PRI"/>
+      <xs:enumeration value="GBR"/>
+      <xs:enumeration value="CAF"/>
+      <xs:enumeration value="CZE"/>
+      <xs:enumeration value="MKD"/>
+      <xs:enumeration value="COG"/>
+      <xs:enumeration value="COD"/>
+      <xs:enumeration value="DOM"/>
+      <xs:enumeration value="REU"/>
+      <xs:enumeration value="RWA"/>
+      <xs:enumeration value="ROU"/>
+      <xs:enumeration value="RUS"/>
+      <xs:enumeration value="ESH"/>
+      <xs:enumeration value="WSM"/>
+      <xs:enumeration value="ASM"/>
+      <xs:enumeration value="BLM"/>
+      <xs:enumeration value="KNA"/>
+      <xs:enumeration value="SMR"/>
+      <xs:enumeration value="MAF"/>
+      <xs:enumeration value="SPM"/>
+      <xs:enumeration value="VCT"/>
+      <xs:enumeration value="SHN"/>
+      <xs:enumeration value="LCA"/>
+      <xs:enumeration value="STP"/>
+      <xs:enumeration value="SEN"/>
+      <xs:enumeration value="SRB"/>
+      <xs:enumeration value="SYC"/>
+      <xs:enumeration value="SLE"/>
+      <xs:enumeration value="SGP"/>
+      <xs:enumeration value="SXM"/>
+      <xs:enumeration value="SYR"/>
+      <xs:enumeration value="SOM"/>
+      <xs:enumeration value="LKA"/>
+      <xs:enumeration value="SWZ"/>
+      <xs:enumeration value="ZAF"/>
+      <xs:enumeration value="SDN"/>
+      <xs:enumeration value="SSD"/>
+      <xs:enumeration value="SWE"/>
+      <xs:enumeration value="CHE"/>
+      <xs:enumeration value="SUR"/>
+      <xs:enumeration value="SJM"/>
+      <xs:enumeration value="THA"/>
+      <xs:enumeration value="TWN"/>
+      <xs:enumeration value="TZA"/>
+      <xs:enumeration value="TJK"/>
+      <xs:enumeration value="IOT"/>
+      <xs:enumeration value="ATF"/>
+      <xs:enumeration value="TLS"/>
+      <xs:enumeration value="TGO"/>
+      <xs:enumeration value="TKL"/>
+      <xs:enumeration value="TON"/>
+      <xs:enumeration value="TTO"/>
+      <xs:enumeration value="TUN"/>
+      <xs:enumeration value="TKM"/>
+      <xs:enumeration value="TUR"/>
+      <xs:enumeration value="TUV"/>
+      <xs:enumeration value="UKR"/>
+      <xs:enumeration value="UGA"/>
+      <xs:enumeration value="URY"/>
+      <xs:enumeration value="UZB"/>
+      <xs:enumeration value="VUT"/>
+      <xs:enumeration value="VAT"/>
+      <xs:enumeration value="VEN"/>
+      <xs:enumeration value="VNM"/>
+      <xs:enumeration value="WLF"/>
+      <xs:enumeration value="YEM"/>
+      <xs:enumeration value="DJI"/>
+      <xs:enumeration value="ZMB"/>
+      <xs:enumeration value="ZWE"/>
+      <xs:enumeration value="ZZZ"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="c_FraccionArancelaria">
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="collapse"/>
+      <xs:pattern value="[0-9]{8,10}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="c_UnidadMedidaAduana">
+    <xs:annotation>
+      <xs:documentation>Unidad de medida</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1"/>
+      <xs:enumeration value="2"/>
+      <xs:enumeration value="3"/>
+      <xs:enumeration value="4"/>
+      <xs:enumeration value="5"/>
+      <xs:enumeration value="6"/>
+      <xs:enumeration value="7"/>
+      <xs:enumeration value="8"/>
+      <xs:enumeration value="9"/>
+      <xs:enumeration value="10"/>
+      <xs:enumeration value="11"/>
+      <xs:enumeration value="12"/>
+      <xs:enumeration value="13"/>
+      <xs:enumeration value="14"/>
+      <xs:enumeration value="15"/>
+      <xs:enumeration value="16"/>
+      <xs:enumeration value="17"/>
+      <xs:enumeration value="18"/>
+      <xs:enumeration value="19"/>
+      <xs:enumeration value="20"/>
+      <xs:enumeration value="21"/>
+      <xs:enumeration value="99"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

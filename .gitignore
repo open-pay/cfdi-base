@@ -232,8 +232,9 @@ gradle-app.setting
 # End of https://www.gitignore.io/api/java,gradle,eclipse,intellij,netbeans,code-java,visualstudiocode
 
 ### SatResources
-src/main/resources/xsd/
-src/main/resources/xslt/
+# Para tener una compilación reproducible se mantienen los archivos descargados
+# src/main/resources/xsd/
+# src/main/resources/xslt/
 
 ### GitHub Publish variables
 .env

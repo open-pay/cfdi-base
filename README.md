@@ -1,4 +1,7 @@
 Pasos para compilación:
 
-./gradlew clean satResources
 ./gradlew build
+
+En caso de necesitar descargar nuevas versiones de los archivos del SAT:
+
+./gradlew clean cleanSatResources satResources
