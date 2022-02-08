@@ -5,6 +5,9 @@ void downloadSatResouce(List<String> downloads, String url, String basePath) {
         //if url contain cfd version change 'common' dir
         filePath = filePath.replaceAll('/cfd/', '/common/')
     }
+    if(downloads.contains(filePath.replace('src/main/resources', ''))){
+        return;
+    }
     download {
         src url
         dest filePath
@@ -362,6 +365,7 @@ tasks.register("satResources") {
                 }
         bindingFileContent += '\t}\n}'
 
+        project.logger.lifecycle('Replacing build.gradle')
         File file = new File('build.gradle')
         String content = file.getText('UTF-8')
         int first_index = content.indexOf('//START OF XJC-GEN') + ('//START OF XJC-GEN'.length())
