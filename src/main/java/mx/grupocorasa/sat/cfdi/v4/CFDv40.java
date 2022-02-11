@@ -82,7 +82,7 @@ public final class CFDv40 extends CFDv4 {
         return new CFDv40(in).document;
     }
 
-    public void guardar(OutputStream out, Boolean formatted) throws Exception {
+    public void guardar40(OutputStream out, Boolean formatted) throws Exception {
         guardar(out,formatted);
     }
 
