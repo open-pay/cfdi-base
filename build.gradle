@@ -11,7 +11,7 @@ apply from: 'download.gradle'
 // Cambiado paquete para diferenciar los proyectos
 group 'mx.openpay'
 // Version SNAPSHOT durante desarrollo
-version '4.1.0-SNAPSHOT'
+version '4.2.0-SNAPSHOT'
 
 publishing {
     repositories {
