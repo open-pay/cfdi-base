@@ -112,6 +112,30 @@ public abstract class CfdCommon implements CfdInterface {
         }
     }
 
+    public void guardarv40(OutputStream out, Boolean formatted, Map<String, String> localPrefixes) throws Exception {
+        if (formatted == null) formatted = true;
+        Marshaller m = createMarshaller();
+        m.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NamespacePrefixMapperImpl(localPrefixes));
+        m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatted);
+        m.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, String.join(" ", getSchemaLocation()));
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); Writer writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8)) {
+            writer.write(XML_HEADER);
+            m.marshal(getComprobanteDocument(), writer);
+            String xml = baos.toString("UTF-8").replace("xmlns:tfd=\"http://www.sat.gob.mx/TimbreFiscalDigital\" ", "");
+            if (xml.contains("http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigital.xsd")) {
+                xml = xml
+                        .replace(" http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigital.xsd", "")
+                        .replace("<tfd:TimbreFiscalDigital", "<tfd:TimbreFiscalDigital xsi:schemaLocation=\"http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigital.xsd\" xmlns:tfd=\"http://www.sat.gob.mx/TimbreFiscalDigital\"");
+            } else if (xml.contains("http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd")) {
+                xml = xml
+                        .replace(" http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd", "")
+                        .replace("<tfd:TimbreFiscalDigital", "<tfd:TimbreFiscalDigital xsi:schemaLocation=\"http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd\" xmlns:tfd=\"http://www.sat.gob.mx/TimbreFiscalDigital\"");
+            }
+            out.write(xml.getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
     public String getCadenaOriginal() throws Exception {
         byte[] bytes = getOriginalBytes();
         return new String(bytes, StandardCharsets.UTF_8);
@@ -148,7 +172,7 @@ public abstract class CfdCommon implements CfdInterface {
     protected void defineComprobanteContext(Object c, List<String> contexts) throws IOException {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         for (final ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClasses()) {
-            if (info.getName().startsWith("mx.grupocorasa.sat.common.") && info.getName().equalsIgnoreCase(c.getClass().getName())) {
+            if (info.getName().startsWith("mx.grupocorasa.sat.common") && info.getName().equalsIgnoreCase(c.getClass().getName())) {
                 defineContexts(contexts, info);
             }
         }

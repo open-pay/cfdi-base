@@ -10,6 +10,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.util.JAXBSource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -81,6 +82,10 @@ public final class CFDv40 extends CFDv4 {
         return new CFDv40(in).document;
     }
 
+    public void guardar(OutputStream out, Boolean formatted) throws Exception {
+        guardar(out,formatted);
+    }
+
     @Override
     public String getBaseContext() {
         return BASE_CONTEXT;
@@ -138,9 +143,9 @@ public final class CFDv40 extends CFDv4 {
 
     @Override
     public void sellar(PrivateKey key, X509Certificate cert) throws Exception {
-        document.setSello(getSignature(key));
-        document.setCertificado(Base64.getEncoder().encodeToString(cert.getEncoded()));
-        document.setNoCertificado(new String(cert.getSerialNumber().toByteArray()));
+        this.document.setCertificado(Base64.getEncoder().encodeToString(cert.getEncoded()));
+        this.document.setNoCertificado(new String(cert.getSerialNumber().toByteArray()));
+        this.document.setSello(this.getSignature(key));
     }
 
     private List<String> getComprobanteContexts(Comprobante comprobante) throws IOException {
